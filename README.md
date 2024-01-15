@@ -1,2 +1,2 @@
 # AuthMePE (no floodgate)
-AuthMe Addon (Only Geyser)
+AuthMe Addon
