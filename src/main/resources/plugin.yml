@@ -2,8 +2,9 @@ name: AuthMePE
 version: '1.1.1'
 main: me.shinthl09.AuthMePE
 api-version: 1.13
-depend: [ floodgate , AuthMe]
+depend: [ Geyser-Spigot , AuthMe]
 author: ShinTHL09
+editor: ItzMintDzX
 commands:
   authmepe:
     usage: /<command>

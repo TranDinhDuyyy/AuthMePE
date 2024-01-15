@@ -10,9 +10,11 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.geysermc.cumulus.CustomForm;
+import org.geysermc.cumulus.form.Form;
+import org.geysermc.cumulus.form.util.FormBuilder;
 import org.geysermc.cumulus.response.CustomFormResponse;
-import org.geysermc.floodgate.api.FloodgateApi;
-import org.geysermc.floodgate.api.player.FloodgatePlayer;
+import org.geysermc.cumulus.util.glue.CustomFormGlue;
+import org.geysermc.geyser.api.GeyserApi;
 
 public class PlayerJoin implements Listener {
     private final Plugin plugin = AuthMePE.getPlugin(AuthMePE.class);
@@ -27,7 +29,7 @@ public class PlayerJoin implements Listener {
     }
 
     private void handlePlayerJoin(Player player) {
-        if (FloodgateApi.getInstance().isFloodgatePlayer(player.getUniqueId())) {
+        if (GeyserApi.api().isBedrockPlayer(player.getUniqueId())) {
             if (AuthMeApi.getInstance().isRegistered(player.getName())) {
                 handleRegisteredPlayer(player);
             } else {
@@ -57,11 +59,12 @@ public class PlayerJoin implements Listener {
     }
 
     private void sendLoginMenu(Player player, String label) {
-        FloodgatePlayer floodPlayer = FloodgateApi.getInstance().getPlayer(player.getUniqueId());
         CustomForm.Builder formBuilder = createFormBuilder("Menu.Title-Login", "Menu.Title-Login-Password", "Menu.Input-Login-Placeholder");
         formBuilder.responseHandler((form, responseData) -> handleLoginFormResponse(player, form.parseResponse(responseData)));
         addLabelToForm(formBuilder, label);
-        floodPlayer.sendForm(formBuilder.build());
+        if (GeyserApi.api().isBedrockPlayer(player.getUniqueId())){
+            GeyserApi.api().sendForm(player.getUniqueId(), formBuilder.build().newForm());
+        }
     }
 
     private void handleLoginFormResponse(Player player, CustomFormResponse loginForm) {
@@ -79,7 +82,6 @@ public class PlayerJoin implements Listener {
     }
 
     private void sendRegisterMenu(Player player, String label) {
-        FloodgatePlayer floodPlayer = FloodgateApi.getInstance().getPlayer(player.getUniqueId());
         CustomForm.Builder formBuilder = createFormBuilder("Menu.Title-Register", "Menu.Title-Register-Password", "Menu.Input-Register-Placeholder");
         formBuilder.input(
                 color.transalate(plugin.getConfig().getString("Menu.Title-Register-RePassword")),
@@ -87,7 +89,9 @@ public class PlayerJoin implements Listener {
         );
         formBuilder.responseHandler((form, responseData) -> handleRegisterFormResponse(player, form.parseResponse(responseData)));
         addLabelToForm(formBuilder, label);
-        floodPlayer.sendForm(formBuilder.build());
+        if (GeyserApi.api().isBedrockPlayer(player.getUniqueId())){
+            GeyserApi.api().sendForm(player.getUniqueId(), formBuilder.build().newForm());
+        }
     }
 
     private void handleRegisterFormResponse(Player player, CustomFormResponse registerForm) {

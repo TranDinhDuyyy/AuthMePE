@@ -21,6 +21,7 @@ public class AuthMePE extends JavaPlugin {
         saveDefaultConfig();
         logMessage("&e---------------------");
         logMessage("&aAuthor:&e ShinTHL09");
+        logMessage("&aEditor:&e ItzMintDzX");
         logMessage("&aPlugin:&e Has Enable");
         logMessage("&aName:&e " + this.getName());
         logMessage("&aVersion:&e 1.1.1");
@@ -31,6 +32,7 @@ public class AuthMePE extends JavaPlugin {
     public void onDisable() {
         logMessage("&e---------------------");
         logMessage("&aAuthor:&e ShinTHL09");
+        logMessage("&aEditor:&e ItzMintDzX");
         logMessage("&aPlugin:&e Has Disable");
         logMessage("&aName:&e " + this.getName());
         logMessage("&aVersion:&e 1.1.1");
