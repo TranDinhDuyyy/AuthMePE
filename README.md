@@ -1,2 +1,2 @@
 # AuthMePE (no floodgate)
-AuthMe Addon
+If u dont want to use the floodgate and only want to use the geyser, then use this
