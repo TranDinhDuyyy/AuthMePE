@@ -1,0 +1,36 @@
+name: Maven Package
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: ''
+        distribution: 'temurin'
+        server-id: github
+        settings-path: ${{ github.workspace }}
+
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
+
+    - name: Publish to GitHub Packages Apache Maven
+      run: |
+        mvn deploy -s $GITHUB_WORKSPACE/settings.xml
+        # Get the JAR file path
+        JAR_FILE=$(find $GITHUB_WORKSPACE/target -name "*.jar")
+        # Create a GitHub Release and upload the JAR file
+        gh release create ${{ github.sha }} $JAR_FILE -t "Release ${{ github.sha }}" -n "Release notes go here" --notes "Release notes go here"
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
