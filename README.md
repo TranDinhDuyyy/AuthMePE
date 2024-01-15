@@ -1,2 +1,2 @@
 # AuthMePE (no floodgate)
-If u dont want to use the floodgate and only want to use the geyser, then use this
+If u dont want to use floodgate and only want to use geyser, then use this
